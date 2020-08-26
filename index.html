@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vu2</title>
+</head>
+<body>
+  <div id="root">
+    <label for="task">Add a new task:</label>
+    <input type="text" id="task" v-model="newTask" @change="isDisabled">
+    <button @click="addTask" :disabled="isDisabled">Add</button>
+    <h2>To Do:</h2>
+    <ul>
+      <li v-if="!task.done" v-for="task in tasks">
+        {{ task.text }}
+        <input type="checkbox" :checked="task.done" v-model="task.done">
+      </li>
+    </ul>
+    <h2>Completed:</h2>
+    <ul>
+      <li v-if="task.done" v-for="task in tasks">
+        {{ task.text }}
+        <input type="checkbox" :checked="task.done" v-model="task.done">
+      </li>
+    </ul>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <script>
+
+    new Vue({
+      el: "#root",
+      data : {
+      tasks: [
+        {text: "Wash your mouth", done: false},
+        {text: "Break your bones", done: false},
+        {text: "Kill your wife", done: true},
+      ],
+      newTask: "",
+      },
+
+      methods: {
+        addTask() {
+          this.tasks = [...this.tasks, {text: this.newTask, done: false}];
+          this.newTask = "";
+        },
+        
+      },
+
+      computed: {
+        isDisabled() {
+          return !this.newTask;
+        },
+      }
+    })
+  </script>
+</body>
+</html>
